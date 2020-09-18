@@ -21,6 +21,20 @@ A lamp controlled over WiFi by a cube. The cube has a colour sensor on its botto
   - objects are asymmetric, cube controller and lamp are connected via WiFi
   - “invented” sensor: DIY colour sensor
 
+## Commands
+
+Install pipenv:
+
+```bash=
+pip install --upgrade pipenv
+```
+
+Install dependencies:
+
+```bash=
+pipenv install 
+```
+
 ## Contributors
 
 - Andreas Ellwanger
