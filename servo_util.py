@@ -1,5 +1,9 @@
 from time import sleep
 
+DUTY_MIN = 20
+DUTY_MAX = 123
+SLEEP = 0.1
+
 # position needs to be between 0.0 and 1.0
 def rotate(servo, position):
     print("desired position: "+ str(position))
