@@ -1,11 +1,18 @@
 from time import sleep
 
-DUTY_MIN = 20
-DUTY_MAX = 123
-SLEEP = 0.1
+DUTY_MIN = 120
+DUTY_MAX = 1023
+SLEEP = 0.0005
+MIN_POS = 0.55
+MAX_POS = 1.0
+
+def init(servo):
+    print("INIT")
+    servo.duty(DUTY_MAX)
 
 # position needs to be between 0.0 and 1.0
-def rotate(servo, position):
+def rotate(servo, pos, speed=SLEEP, step=1):
+    position = MAX_POS - pos * (MAX_POS - MIN_POS)
     print("desired position: "+ str(position))
     current_duty = servo.duty()
     if(current_duty>DUTY_MAX):
@@ -13,9 +20,10 @@ def rotate(servo, position):
     print("curr duty: " + str(current_duty))
     new_duty = int(DUTY_MIN + position * (DUTY_MAX - DUTY_MIN))
     print("new duty: " + str(new_duty))
-
-    step = 1 if current_duty < new_duty else -1
+    servo.duty(i)
+    step = step if current_duty < new_duty else -step
 
     for i in range(current_duty, new_duty+1, step):
         servo.duty(i)
-        sleep(SLEEP)
+        #print(str(i) + " - " + str(servo.duty()))
+        sleep(speed)
