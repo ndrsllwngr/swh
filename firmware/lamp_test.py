@@ -1,7 +1,7 @@
-from servo import rotate, init
+from drivers.servo import rotate, init
 from machine import Pin, PWM, ADC
 from time import sleep
-from ring_led import colorAll
+from drivers.ring_led import colorAll
 
 analogPin = ADC(Pin(34))
 analogPin.atten(ADC.ATTN_11DB)
