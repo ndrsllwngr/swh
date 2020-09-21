@@ -1,6 +1,7 @@
-from servo_util import rotate, init
+from servo import rotate, init
 from machine import Pin, PWM, ADC
 from time import sleep
+from ring_led import colorAll
 
 analogPin = ADC(Pin(34))
 analogPin.atten(ADC.ATTN_11DB)
@@ -13,7 +14,7 @@ servo.deinit()
 servo = PWM(servoPin, freq=500)
 
 init(servo)
-
+colorAll(255,0,0)
 
 while True:
   analogVal = analogPin.read()

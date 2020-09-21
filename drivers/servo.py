@@ -1,9 +1,10 @@
 from time import sleep
 
+# Values for 500hz servo
 DUTY_MIN = 120
 DUTY_MAX = 1023
 SLEEP = 0.0005
-MIN_POS = 0.55
+MIN_POS = 0.60
 MAX_POS = 1.0
 
 def init(servo):
