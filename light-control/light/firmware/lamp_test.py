@@ -1,6 +1,6 @@
 from drivers.servo import LAMP_SERVO
 from machine import Pin, PWM, ADC
-from time import sleep
+from time import sleep_ms
 from drivers.ring_led import colorAll
 from util.netvars import initNet, getNetVar
 
@@ -21,4 +21,4 @@ while True:
   position = float(getNetVar("lampPosition"))
   print("New Position: "+str(position))
   servo.rotate(position)
-  sleep(0.01)
+  sleep_ms(10)
