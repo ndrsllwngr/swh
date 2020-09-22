@@ -37,10 +37,6 @@ last_x_value = 0
 last_y_value = 0
 last_z_value = 0
 
-sum_x_value = 0
-sum_y_value = 0
-sum_z_value = 0
-
 # Calibrated measurements to offset some bias or error in the readings.
 calib_x_accel = 0.0 
 calib_y_accel = 0.0 
@@ -103,19 +99,30 @@ def read_mpu6050():
 
             #tp = temp/ 340 + 36.53
 
-            #acc_angles = acc_angle(Ax, Ay, Az) # Calculate angle of inclination or tilt for the x and y axes with acquired acceleration vectors
+            acc_angles = acc_angle(Ax, Ay, Az) # Calculate angle of inclination or tilt for the x and y axes with acquired acceleration vectors
             gyr_angles = gyr_angle(Gx, Gy, Gz, dt) # Calculate angle of inclination or tilt for x,y and z axes with angular rates and dt 
-            #(c_angle_x, c_angle_y) = c_filtered_angle(acc_angles[0], acc_angles[1], gyr_angles[0], gyr_angles[1]) # filtered tilt angle i.e. what we're after
+            (c_angle_x, c_angle_y) = c_filtered_angle(acc_angles[0], acc_angles[1], gyr_angles[0], gyr_angles[1]) # filtered tilt angle i.e. what we're after
             #(k_angle_x, k_angle_y) = k_filtered_angle(acc_angles[0], acc_angles[1], Gx, Gy, dt)
 
             set_last_read_angles(t_now, gyr_angles[0], gyr_angles[1], gyr_angles[2])
             set_last_read_values(Gx,Gy,Gz)
             #print ("Gx=%.6f" %Gx, u'\u00b0'+ "/s", "\tGy=%.6f" %Gy, u'\u00b0'+ "/s", "\tGz=%.6f" %Gz, u'\u00b0'+ "/s", "\tAx=%.6f g" %Ax, "\tAy=%.6f g" %Ay, "\tAz=%.6f g" %Az) 	
             #print(str(gyr_angles))
-            print("Sums: (%.2f" %sum_x_value, ",%.2f" %sum_y_value, "%.2f" %sum_z_value, ")")
+            #print("Sums: (%.2f" %sum_x_value, ",%.2f" %sum_y_value, "%.2f" %sum_z_value, ")")
             #print("(%.2f," %c_angle_x, "%.2f)" %c_angle_y, " - Acc: (%.2f" %Ax, ",%.2f" %Ay, "%.2f" %Az, ") - Gyr: (%.2f" %Gx, ",%.2f" %Gy, "%.2f" %Gz, ")")
+            
+            sensitivity = 3
 
-            time.sleep_ms(10)
+            dir = "NONE "
+
+            if Gz > sensitivity:
+                dir = "RIGHT"
+            elif Gz < -sensitivity:
+                dir = "LEFT "
+
+            print(dir+" - %.2f," %Gz)
+
+            time.sleep_ms(100)
 
     except KeyboardInterrupt:
         pass
@@ -128,7 +135,7 @@ def calibrate_sensors():
     y_gyro  = 0
     z_gyro  = 0
     
-    #print("Starting Calibration")
+    print("Starting Calibration")
 
     #Discard the first set of values read from the IMU
     read_values_helper()
@@ -159,7 +166,7 @@ def calibrate_sensors():
     calib_y_gyro  = y_gyro
     calib_z_gyro  = z_gyro
 
-    #print("Finishing Calibration")
+    print("Finishing Calibration")
 
 def set_last_read_angles(time, x, y, z):
     global last_read_time, last_x_angle, last_y_angle, last_z_angle
@@ -169,13 +176,10 @@ def set_last_read_angles(time, x, y, z):
     last_z_angle = z
     
 def set_last_read_values(x, y, z):
-    global last_x_value, last_y_value, last_z_value, sum_x_value, sum_y_value, sum_z_value
+    global last_x_value, last_y_value, last_z_value
     last_x_value = x
     last_y_value = y 
     last_z_value = z 
-    sum_x_value += x
-    sum_y_value += y 
-    sum_z_value += z 
 
 # accelerometer data can't be used to calculate 'yaw' angles or rotation around z axis.
 def acc_angle(Ax, Ay, Az):
@@ -235,10 +239,3 @@ def get_last_y_value():
     return last_y_value
 def get_last_z_value():
     return last_z_value
-
-def get_sum_x_value():
-    return sum_x_value
-def get_sum_y_value():
-    return sum_y_value
-def get_sum_z_value():
-    return sum_z_value

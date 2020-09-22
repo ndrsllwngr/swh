@@ -1,11 +1,3 @@
-from machine import Pin
-from time import sleep
-from drivers.imu import MPU6050
-from fusion.fusion import Fusion
+from drivers.mpu6050 import read_mpu6050 
 
-
-imu = MPU6050("X")
-
-while True:
-    print(str(imu.accel.xyz)+" - "+str(imu.gyro.xyz))
-    sleep(0.5)
+read_mpu6050()
