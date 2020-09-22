@@ -18,7 +18,7 @@ while True:
   #analogVal = analogPin.read()
   #rel_val = analogVal/MAX_ANALOG_VAL
   #print("Analog: "+str(analogVal)+" - rel: "+str(rel_val))
-  position = float(getNetVar("superCoolLampControllerPosition"))
+  position = float(getNetVar("lampPosition"))
   print("New Position: "+str(position))
   servo.rotate(position)
   sleep(0.01)

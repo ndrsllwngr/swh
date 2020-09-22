@@ -22,18 +22,18 @@ def read_gyro(gyro):
 
             if gyro_z > sensitivity:
                 dir = "RIGHT"
-                position += gyro / DIVIDER
+                position += gyro_z / DIVIDER
             elif gyro_z < -sensitivity:
                 dir = "LEFT "
-                position -= gyro / DIVIDER
-            print(dir+" - %.2f," %gyro_z)
+                position += gyro_z / DIVIDER
 
             if position > 1.0:
                 position = 1.0
             elif position < 0.0:
                 position = 0.0
 
-            setNetVar("superCoolLampControllerPosition", position)
+            print(dir+" - %.2f," %gyro_z, " Pos: %.2f" %position)
+            setNetVar("lampPosition", position)
 
             sleep_ms(100)
 
