@@ -2,7 +2,7 @@ from drivers.mpu6050 import MPU6050_GYRO
 from drivers.colour_sensor import DIY_COLOUR_SENSOR
 from drivers.switch import SWITCH
 from drivers.speaker import SPEAKER
-from time import sleep_ms 
+from time import sleep_ms
 from util.netvars import initNet, setNetVar
 
 initNet("Wu-Tang-Lan", "doppelhure69")

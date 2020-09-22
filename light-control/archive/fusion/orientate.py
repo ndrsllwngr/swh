@@ -24,8 +24,10 @@ def invert(axes, vectors):  # Invert one or more axes on a list of vectors
         res.append(tuple(map(lambda x, y: -y if x else y, axes, vector)))
     return res
 
-def transpose(idx, vectors):# transpose axes in a list of vectors
-    res = []                # e.g. swap x and y transpose((1, 0, 2), (accel, gyro, mag))
+
+def transpose(idx, vectors):  # transpose axes in a list of vectors
+    # e.g. swap x and y transpose((1, 0, 2), (accel, gyro, mag))
+    res = []
     for vector in vectors:
         res.append([vector[axis] for axis in idx])
     return res
@@ -37,6 +39,7 @@ def transpose(idx, vectors):# transpose axes in a list of vectors
 # e.g. (False, False, True) invert vertical axis.
 # Returns a list of vectors. Typical invocation:
 # fuse.update(*orientate(T, I, imu.get_accel(), imu.get_gyro(), imu.get_mag()))
+
 
 def orientate(t, i, *vecs):
     return invert(i, transpose(t, vecs))
