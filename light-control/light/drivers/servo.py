@@ -47,6 +47,6 @@ class LAMP_SERVO():
 
         step = 1 if current_duty < new_duty else -1
 
-        for i in range(current_duty, new_duty+1, step):
-            self.servo.duty(i)
-            sleep(self.SLEEP)
+        self.servo.duty(new_duty)
+        #for i in range(current_duty, new_duty+1, step):
+        #    sleep(self.SLEEP)

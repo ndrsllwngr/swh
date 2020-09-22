@@ -1,7 +1,7 @@
 from drivers.servo import LAMP_SERVO
 from machine import Pin, PWM, ADC
 from time import sleep_ms
-from drivers.ring_led import colorAll
+from drivers.ring_led import RING_LED
 from util.netvars import initNet, getNetVar
 
 analogPin = ADC(Pin(34))
@@ -10,9 +10,10 @@ analogPin.atten(ADC.ATTN_11DB)
 MAX_ANALOG_VAL = 4095
 
 servo = LAMP_SERVO()
+ring_led = RING_LED()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
-colorAll(255,0,0)
+ring_led.colorAll(255,0,0)
 
 while True:
   #analogVal = analogPin.read()
