@@ -3,13 +3,12 @@ from machine import Pin
 from time import sleep
 import random
 
+#test
 
 class RING_LED():
 
     # number of leds
     LED_COUNT = 8
-    # connected Pin
-    p = 0
 
     def __init__(self, pin=0):
         self.np = neopixel.NeoPixel(Pin(pin), self.LED_COUNT)

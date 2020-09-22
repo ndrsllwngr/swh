@@ -14,7 +14,7 @@ servo = LAMP_SERVO()
 ring_led = RING_LED()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
-ring_led.colorAll(255, 0, 0)
+
 
 while True:
     #analogVal = analogPin.read()
@@ -23,8 +23,9 @@ while True:
     position = float(getNetVar("lampPosition"))
     print("New Position: "+str(position))
     servo.rotate(position)
-
+    
     colors = stringToInt(getNetVar("lampColour"))
-    print("New Color: "+str(colors))
+    ring_led.colorAll(colors[0], colors[1], colors[2])
+    print("New Color: "+colors)
 
     sleep_ms(10)
