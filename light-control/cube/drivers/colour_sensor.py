@@ -93,9 +93,3 @@ class DIY_COLOUR_SENSOR():
         print(netColourStr)
         return netColourStr
 
-    def run(self):
-        while True:
-            # self.checkBalance()
-            self.checkColour()
-            sleep(2)
-            # self.printColour()

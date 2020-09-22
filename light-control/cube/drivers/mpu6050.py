@@ -33,9 +33,19 @@ class MPU6050_GYRO():
     calib_y_gyro  = 0.0 
     calib_z_gyro  = 0.0 
 
+    #Z-Position relative to start point 
+    position = 0.0
+    #Divider for converting gyro values to relative position
+    POSITION_DIVIDER = 200
+    POSITION_MIN = 0.0
+    POSITION_MAX = 1.0
+
+    #Sensitivity for position changes
+    SENSITIVITY = 3
+
     def __init__(self, sda_pin=21, scl_pin=22):
         #instantiate the i2c interface on esp32 (pins 21,22 for wroom32 variants) 
-        self.i2c = I2C(scl=scl_pin, sda=sda_pin, freq=400000)
+        self.i2c = I2C(scl=Pin(scl_pin), sda=Pin(sda_pin), freq=400000)
         self.init_MPU()
         self.calibrate_sensors()
 
@@ -120,3 +130,29 @@ class MPU6050_GYRO():
 
     def get_last_values(self):
         return (self.last_x_value, self.last_y_value, self.last_z_value)
+
+    def update_position(self):
+        gyro_x, gyro_y, gyro_z = self.read_values()
+
+        self.set_last_read_values(gyro_x,gyro_y,gyro_z)
+
+        dir = "NONE "
+
+        if gyro_z > self.SENSITIVITY:
+            dir = "RIGHT"
+            self.position += gyro_z / self.POSITION_DIVIDER
+        elif gyro_z < -self.SENSITIVITY:
+            dir = "LEFT "
+            self.position += gyro_z / self.POSITION_DIVIDER
+
+        if self.position > self.POSITION_MAX:
+            self.position = self.POSITION_MAX
+        elif self.position < self.POSITION_MIN:
+            self.position = self.POSITION_MIN
+
+        print("Gyro "+dir+" Change: %.2f " %gyro_z, " Pos: %.2f" %self.position)
+        return self.position
+
+    def get_position(self):
+        return self.position
+        
