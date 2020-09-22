@@ -23,7 +23,7 @@ while True:
     position = float(getNetVar("lampPosition"))
     servo.rotate(position)
     print("New Position: "+str(position))
-    
+
     colors = stringToInt(getNetVar("lampColour"))
     colorStr = str(colors)
     if colorStr != lastColorStr:

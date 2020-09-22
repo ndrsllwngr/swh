@@ -28,6 +28,8 @@ SET_CHARGE_PUMP = const(0x8D)
 
 # Subclassing FrameBuffer provides support for graphics primitives
 # http://docs.micropython.org/en/latest/pyboard/library/framebuf.html
+
+
 class SSD1306(framebuf.FrameBuffer):
     def __init__(self, width, height, external_vcc):
 
@@ -40,9 +42,9 @@ class SSD1306(framebuf.FrameBuffer):
         self.init_display()
 
     def init_display(self):
-        #reset pin must be high
+        # reset pin must be high
         pin16 = Pin(16, Pin.OUT)
-        pin16.value(1)      
+        pin16.value(1)
         for cmd in (
             SET_DISP | 0x00,  # off
             # address setting
@@ -91,12 +93,12 @@ class SSD1306(framebuf.FrameBuffer):
 
     def invert(self, invert):
         self.write_cmd(SET_NORM_INV | (invert & 1))
-    
+
     def show(self):
-        #reset pin must be high
+        # reset pin must be high
         pin16 = Pin(16, Pin.OUT)
         pin16.value(1)
-        
+
         x0 = 0
         x1 = self.width - 1
         if self.width == 64:
@@ -165,11 +167,3 @@ class SSD1306_SPI(SSD1306):
         self.cs(0)
         self.spi.write(buf)
         self.cs(1)
-
-
-
-
-
-
-
-
