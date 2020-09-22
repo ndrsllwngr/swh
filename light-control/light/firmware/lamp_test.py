@@ -3,6 +3,7 @@ from machine import Pin, PWM, ADC
 from time import sleep_ms
 from drivers.ring_led import RING_LED
 from util.netvars import initNet, getNetVar
+from util.colour import stringToInt
 
 analogPin = ADC(Pin(34))
 analogPin.atten(ADC.ATTN_11DB)
@@ -22,4 +23,8 @@ while True:
   position = float(getNetVar("lampPosition"))
   print("New Position: "+str(position))
   servo.rotate(position)
+  
+  colors = stringToInt(getNetVar("lampColour"))
+  print("New Color: "+str(colors))
+
   sleep_ms(10)
