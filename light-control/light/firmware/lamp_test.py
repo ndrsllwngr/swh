@@ -26,6 +26,6 @@ while True:
     
     colors = stringToInt(getNetVar("lampColour"))
     ring_led.colorAll(colors[0], colors[1], colors[2])
-    print("New Color: "+colors)
+    print("New Color: "+str(colors))
 
     sleep_ms(10)
