@@ -65,6 +65,7 @@ class DIY_COLOUR_SENSOR():
                 self.colourArray[i] - self.blackArray[i])/(greyDiff)*255
             self.ledArray[i].value(0)
             # sleep(0.5)
+        return self.getColourString()
 
     def getReading(self, times):
         print("getReading")
@@ -81,12 +82,20 @@ class DIY_COLOUR_SENSOR():
         rVal = max(min(int(self.colourArray[0]), 255), 0)
         gVal = max(min(int(self.colourArray[1]), 255), 0)
         bVal = max(min(int(self.colourArray[2]), 255), 0)
-        print("RGB(", rVal, ",", gVal, ",", bVal, "), whiteArr = ", self.whiteArray,
-              ", blackArr = ", max(min(int(self.colourArray[2]), 255), 0))
-        sleep(2)
+        print("RGB(" + rVal + "," + gVal + "," + bVal + "), whiteArr =", self.whiteArray,
+              ", blackArr =", max(min(int(self.colourArray[2]), 255), 0))
+
+    def getColourString(self):
+        rVal = max(min(int(self.colourArray[0]), 255), 0)
+        gVal = max(min(int(self.colourArray[1]), 255), 0)
+        bVal = max(min(int(self.colourArray[2]), 255), 0)
+        netColourStr = str(rVal) + "-" + str(gVal) + "-" + str(bVal)
+        print(netColourStr)
+        return netColourStr
 
     def run(self):
         while True:
             # self.checkBalance()
             self.checkColour()
-            self.printColour()
+            sleep(2)
+            # self.printColour()
