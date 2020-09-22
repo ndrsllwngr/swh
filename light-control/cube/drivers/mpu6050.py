@@ -1,7 +1,5 @@
-import machine, ubinascii, time, math
 from machine import Pin, I2C
-from time import sleep
-
+from time import sleep_ms
 
 class MPU6050_GYRO():
     
@@ -35,9 +33,9 @@ class MPU6050_GYRO():
     calib_y_gyro  = 0.0 
     calib_z_gyro  = 0.0 
 
-    def __init__(self):
+    def __init__(self, sda_pin=21, scl_pin=22):
         #instantiate the i2c interface on esp32 (pins 21,22 for wroom32 variants) 
-        self.i2c = I2C(scl=machine.Pin(22), sda=machine.Pin(21), freq=400000)
+        self.i2c = I2C(scl=scl_pin, sda=sda_pin, freq=400000)
         self.init_MPU()
         self.calibrate_sensors()
 
@@ -54,11 +52,9 @@ class MPU6050_GYRO():
         self.i2c.writeto_mem(self.MPU6050_ADDR, self.INT_ENABLE, b'\x00')
 
     def read_raw_data(self, addr):
-        #Accelero and Gyro value are 16-bit
+        #Gyro value are 16-bit
         high = self.i2c.readfrom_mem(self.MPU6050_ADDR, addr, 1)
-        #print(ubinascii.hexlify(high))
         low  = self.i2c.readfrom_mem(self.MPU6050_ADDR, addr+1, 1)
-        #print(ubinascii.hexlify(low))
         
         #concatenate higher and lower values
         val = high[0] << 8 | low[0]
@@ -84,7 +80,7 @@ class MPU6050_GYRO():
             x_gyro  += values[0]
             y_gyro  += values[1]
             z_gyro  += values[2]
-            time.sleep_ms(self.CALIBRARTION_SLEEP)
+            sleep_ms(self.CALIBRARTION_SLEEP)
         
         x_gyro /= self.CALIBRATION_STEPS
         y_gyro /= self.CALIBRATION_STEPS
