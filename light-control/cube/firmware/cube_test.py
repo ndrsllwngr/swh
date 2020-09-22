@@ -21,7 +21,8 @@ while True:
             print("COLOR_SCAN_MODE")
             color_string = colour_sensor.checkColour()
             setNetVar("lampColour", color_string)
-            speaker.beep_long()
+            speaker.beep_long(tone='d')
             sleep_ms(500)
+        sleep_ms(20)
     except KeyboardInterrupt:
         break
