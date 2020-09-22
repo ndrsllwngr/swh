@@ -14,7 +14,7 @@ A lamp controlled over WiFi by a cube. The cube has a colour sensor on its botto
   - acceleration sensor to dim the light intensity if the cube is rotated
   - button to save colour
   - haptic feedback (vibration motor) after saving colour
-- lamp: light installation, an assembly of multiple light sources 
+- lamp: light installation, an assembly of multiple light sources
   - has multi-colour light sources (RGB leds)
   - option to emit sound (speaker)
   - control light intensity with motors which move panels (motors)
@@ -32,7 +32,7 @@ pip install --upgrade pipenv
 Install dependencies:
 
 ```bash=
-pipenv install 
+pipenv install
 ```
 
 ## Contributors

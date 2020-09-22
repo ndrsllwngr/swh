@@ -14,17 +14,18 @@ servo = LAMP_SERVO()
 ring_led = RING_LED()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
-ring_led.colorAll(255,0,0)
+
 
 while True:
-  #analogVal = analogPin.read()
-  #rel_val = analogVal/MAX_ANALOG_VAL
-  #print("Analog: "+str(analogVal)+" - rel: "+str(rel_val))
-  position = float(getNetVar("lampPosition"))
-  print("New Position: "+str(position))
-  servo.rotate(position)
-  
-  colors = stringToInt(getNetVar("lampColour"))
-  print("New Color: "+str(colors))
+    #analogVal = analogPin.read()
+    #rel_val = analogVal/MAX_ANALOG_VAL
+    #print("Analog: "+str(analogVal)+" - rel: "+str(rel_val))
+    position = float(getNetVar("lampPosition"))
+    print("New Position: "+str(position))
+    servo.rotate(position)
+    
+    colors = stringToInt(getNetVar("lampColour"))
+    ring_led.colorAll(colors[0], colors[1], colors[2])
+    print("New Color: "+str(colors))
 
-  sleep_ms(10)
+    sleep_ms(10)

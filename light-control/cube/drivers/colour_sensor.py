@@ -92,4 +92,3 @@ class DIY_COLOUR_SENSOR():
         netColourStr = str(rVal) + "-" + str(gVal) + "-" + str(bVal)
         print(netColourStr)
         return netColourStr
-

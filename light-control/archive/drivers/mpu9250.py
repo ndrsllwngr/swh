@@ -48,8 +48,10 @@ class MPU9250(MPU6050):
         self._mag = Vector3d(transposition, scaling, self._mag_callback)
         self.accel_filter_range = 0             # fast filtered response
         self.gyro_filter_range = 0
-        self._mag_stale_count = 0               # MPU9250 count of consecutive reads where old data was returned
-        self.mag_correction = self._magsetup()  # 16 bit, 100Hz update.Return correction factors.
+        # MPU9250 count of consecutive reads where old data was returned
+        self._mag_stale_count = 0
+        # 16 bit, 100Hz update.Return correction factors.
+        self.mag_correction = self._magsetup()
         self._mag_callback()  # Seems neccessary to kick the mag off else 1st reading is zero (?)
 
     @property
@@ -143,8 +145,10 @@ class MPU9250(MPU6050):
         try:
             self._write(0x0F, 0x0A, self._mag_addr)      # fuse ROM access mode
             self._read(self.buf3, 0x10, self._mag_addr)  # Correction values
-            self._write(0, 0x0A, self._mag_addr)         # Power down mode (AK8963 manual 6.4.6)
-            self._write(0x16, 0x0A, self._mag_addr)      # 16 bit (0.15uT/LSB not 0.015), mode 2
+            # Power down mode (AK8963 manual 6.4.6)
+            self._write(0, 0x0A, self._mag_addr)
+            # 16 bit (0.15uT/LSB not 0.015), mode 2
+            self._write(0x16, 0x0A, self._mag_addr)
         except OSError:
             raise MPUException(self._I2Cerror)
         mag_x = (0.5*(self.buf3[0] - 128))/128 + 1
@@ -164,7 +168,8 @@ class MPU9250(MPU6050):
         Update magnetometer Vector3d object (if data available)
         '''
         try:                                    # If read fails, returns last valid data and
-            self._read(self.buf1, 0x02, self._mag_addr)  # increments mag_stale_count
+            # increments mag_stale_count
+            self._read(self.buf1, 0x02, self._mag_addr)
             if self.buf1[0] & 1 == 0:
                 return self._mag                # Data not ready: return last value
             self._read(self.buf6, 0x03, self._mag_addr)
@@ -174,13 +179,17 @@ class MPU9250(MPU6050):
         if self.buf1[0] & 0x08 > 0:             # An overflow has occurred
             self._mag_stale_count += 1          # Error conditions retain last good value
             return                              # user should check for ever increasing stale_counts
-        self._mag._ivector[1] = bytes_toint(self.buf6[1], self.buf6[0])  # Note axis twiddling and little endian
+        # Note axis twiddling and little endian
+        self._mag._ivector[1] = bytes_toint(self.buf6[1], self.buf6[0])
         self._mag._ivector[0] = bytes_toint(self.buf6[3], self.buf6[2])
         self._mag._ivector[2] = -bytes_toint(self.buf6[5], self.buf6[4])
         scale = 0.15                            # scale is 0.15uT/LSB
-        self._mag._vector[0] = self._mag._ivector[0]*self.mag_correction[0]*scale
-        self._mag._vector[1] = self._mag._ivector[1]*self.mag_correction[1]*scale
-        self._mag._vector[2] = self._mag._ivector[2]*self.mag_correction[2]*scale
+        self._mag._vector[0] = self._mag._ivector[0] * \
+            self.mag_correction[0]*scale
+        self._mag._vector[1] = self._mag._ivector[1] * \
+            self.mag_correction[1]*scale
+        self._mag._vector[2] = self._mag._ivector[2] * \
+            self.mag_correction[2]*scale
         self._mag_stale_count = 0
 
     @property
@@ -197,9 +206,11 @@ class MPU9250(MPU6050):
         self._read(self.buf1, 0x02, self._mag_addr)
         if self.buf1[0] == 1:                   # Data is ready
             self._read(self.buf6, 0x03, self._mag_addr)
-            self._read(self.buf1, 0x09, self._mag_addr)    # Mandatory status2 read
+            # Mandatory status2 read
+            self._read(self.buf1, 0x09, self._mag_addr)
             self._mag._ivector[1] = 0
             if self.buf1[0] & 0x08 == 0:        # No overflow has occurred
                 self._mag._ivector[1] = bytes_toint(self.buf6[1], self.buf6[0])
                 self._mag._ivector[0] = bytes_toint(self.buf6[3], self.buf6[2])
-                self._mag._ivector[2] = -bytes_toint(self.buf6[5], self.buf6[4])
+                self._mag._ivector[2] = - \
+                    bytes_toint(self.buf6[5], self.buf6[4])

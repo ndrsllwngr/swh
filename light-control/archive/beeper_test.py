@@ -3,7 +3,7 @@ from machine import Pin, PWM
 from time import sleep
 
 tempo = 1
-#notes and corresponding frequency
+# notes and corresponding frequency
 tones = {
     'c': 262,
     'd': 294,
@@ -19,10 +19,11 @@ pin = Pin(27, Pin.OUT)
 # Init Beeper without frequency.
 beeper = PWM(pin, duty=512)
 melody = 'cdefggaaaagaaaagffffeeddddc'
-rhythm = [8, 8, 8, 8, 4, 4, 8, 8, 8, 8, 4, 8, 8, 8, 8, 4, 8, 8, 8, 8, 4, 4, 8, 8, 8, 8, 4]
+rhythm = [8, 8, 8, 8, 4, 4, 8, 8, 8, 8, 4, 8,
+          8, 8, 8, 4, 8, 8, 8, 8, 4, 4, 8, 8, 8, 8, 4]
 
 for tone, length in zip(melody, rhythm):
     beeper.freq(tones[tone])
     sleep(tempo/length)
-    
+
 beeper.deinit()

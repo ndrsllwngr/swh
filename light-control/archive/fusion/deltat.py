@@ -43,12 +43,14 @@ except ImportError:
 
 is_micropython = hasattr(time, 'ticks_diff')
 
+
 class DeltaT():
     def __init__(self, timediff):
         if timediff is None:
             self.expect_ts = False
             if is_micropython:
-                self.timediff = lambda start, end : time.ticks_diff(start, end)/1000000
+                self.timediff = lambda start, end: time.ticks_diff(
+                    start, end)/1000000
             else:
                 raise ValueError('You must define a timediff function')
         else:
@@ -64,7 +66,8 @@ class DeltaT():
             if is_micropython:
                 ts = time.ticks_us()
             else:
-                raise RuntimeError('Not MicroPython: provide timestamps and a timediff function')
+                raise RuntimeError(
+                    'Not MicroPython: provide timestamps and a timediff function')
         # ts is now valid
         if self.start_time is None:  # 1st call: self.start_time is invalid
             self.start_time = ts
