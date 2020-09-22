@@ -1,4 +1,4 @@
-from drivers.servo import rotate, init
+from drivers.servo import LAMP_SERVO
 from machine import Pin, PWM, ADC
 from time import sleep
 from drivers.ring_led import colorAll
@@ -8,17 +8,12 @@ analogPin.atten(ADC.ATTN_11DB)
 
 MAX_ANALOG_VAL = 4095
 
-servoPin = Pin(26, Pin.OUT)
-servo = PWM(servoPin, freq=500)
-servo.deinit()
-servo = PWM(servoPin, freq=500)
-
-init(servo)
+servo = LAMP_SERVO()
 colorAll(255,0,0)
 
 while True:
   analogVal = analogPin.read()
   rel_val = analogVal/MAX_ANALOG_VAL
   #print("Analog: "+str(analogVal)+" - rel: "+str(rel_val))
-  rotate(servo,rel_val)
-  #sleep(0.001)
+  servo.rotate(rel_val)
+  sleep(0.01)
