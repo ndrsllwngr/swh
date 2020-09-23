@@ -19,7 +19,6 @@ while True:
         timeDiff = utime.time() - lastUpdated
         if timeDiff > 30:
             lastUpdated = utime.time()
-            print("OUCH!")
             reset = getNetVar("lampReset")
             if reset == 'True':
                 setNetVar("lampReset", False)

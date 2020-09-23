@@ -1,4 +1,5 @@
 import os
+import utime
 
 from drivers.mpu6050 import MPU6050_GYRO
 from drivers.colour_sensor import DIY_COLOUR_SENSOR
@@ -14,14 +15,18 @@ switch = SWITCH(26)
 colour_sensor = DIY_COLOUR_SENSOR()
 speaker = SPEAKER()
 
+lastUpdated = utime.time()
+
 while True:
     try:
-        reset = getNetVar("cubeReset")
-        if reset == 'True':
-            setNetVar("cubeReset", False)
-            import machine
-            machine.reset()
-
+        timeDiff = utime.time() - lastUpdated
+        if timeDiff > 30:
+            lastUpdated = utime.time()
+            reset = getNetVar("cubeReset")
+            if reset == 'True':
+                setNetVar("cubeReset", False)
+                import machine
+                machine.reset()
         if not switch.getValue():
             speaker.beep_n(2)
             print("COLOR_SCAN_MODE")
@@ -32,7 +37,7 @@ while True:
         else:
             gyro_pos = gyro.update_position()
             setNetVar("lampPosition", gyro_pos)
-            sleep_ms(20)
+            sleep_ms(30)
     except KeyboardInterrupt:
         break
     except OSError :
