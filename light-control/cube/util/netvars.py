@@ -12,6 +12,7 @@ def initNet(ssid, passwd):
 
             pass
     print('network config:', wlan.ifconfig())
+    return wlan.ifconfig()[0]
 
 
 def http_get(url):
