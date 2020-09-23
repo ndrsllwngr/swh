@@ -22,19 +22,14 @@ s.connect((cube_ip, 9420))
 
 while True:
     try:
-        timeDiff = utime.time() - lastUpdated
-        if timeDiff > 30:
-            reset = getNetVar("lampReset")
-            if reset == 'True':
-                print("Reset triggered...")
-                setNetVar("lampReset", False)
-                import machine
-                machine.reset()
-            lastUpdated = utime.time()
-    
         socket_data = s.readline()
         socket_data_str = str(socket_data, 'utf8')
         print("Received from socket: "+socket_data_str)
+
+        if socket_data_str == "RESET":
+            print("Reset triggered...")
+            import machine
+            machine.reset()
 
         colors_str = socket_data_str.split("$")[0]
         colors = stringToInt(colors_str)
