@@ -1,5 +1,6 @@
 import os
 import utime
+import _thread
 
 from drivers.mpu6050 import MPU6050_GYRO
 from drivers.colour_sensor import DIY_COLOUR_SENSOR
@@ -20,29 +21,38 @@ speaker = SPEAKER()
 lastUpdated = utime.time()
 
 import socket
-addr = socket.getaddrinfo('0.0.0.0', 9420)[0][-1]
+socket_addr = socket.getaddrinfo('0.0.0.0', 9420)[0][-1]
 
 s = socket.socket()
-s.bind(addr)
+s.bind(socket_addr)
 s.listen(1)
+print('listening for new clients on', socket_addr)
 
 color_string = "255-255-255"
 gyro_pos = 0.0
 
-while True:
-    print('listening for new clients on', addr)
-    try:
+clients = []
+
+def listen_for_connections():
+    global clients
+    while True:
         cl, addr = s.accept()
         print('client connected from', addr)
-        while True:
-            timeDiff = utime.time() - lastUpdated
-            if timeDiff > 30:
-                lastUpdated = utime.time()
-                reset = getNetVar("cubeReset")
-                if reset == 'True':
-                    setNetVar("cubeReset", False)
-                    import machine
-                    machine.reset()
+        clients.append((cl,addr))
+
+_thread.start_new_thread(listen_for_connections, () )
+
+while True:
+    try:
+        timeDiff = utime.time() - lastUpdated
+        if timeDiff > 30:
+            lastUpdated = utime.time()
+            reset = getNetVar("cubeReset")
+            if reset == 'True':
+                setNetVar("cubeReset", False)
+                import machine
+                machine.reset()
+        if len(clients) > 0:        
             if not switch.getValue():
                 speaker.beep_n(2)
                 print("COLOR_SCAN_MODE")
@@ -51,14 +61,26 @@ while True:
                 sleep_ms(500)
             else:
                 gyro_pos = gyro.update_position()
-                sleep_ms(30)
-            message = color_string+"$"+str(gyro_pos)
+                sleep_ms(100)
+            message = color_string+"$"+str(gyro_pos)+"\n"
             print("About to send: "+message)
-            cl.send(message)
+
+            for c in clients:
+                client, address = c
+                print ("sending to: ",address)
+                try:
+                    client.send(message)
+                except OSError as e:
+                    print(str(address) + " disconnected")
+                    client.close()
+                    clients.remove((client, address))
+        else: 
+            print("No clients, waiting for connection")
+            sleep_ms(1000)
     except KeyboardInterrupt:
         break
     except OSError as e:
-        print("Socket error: %s" % e)
-        cl.close()
+        print("Netvar error: %s" % e)
+        continue
 
 s.close()
