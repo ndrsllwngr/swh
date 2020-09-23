@@ -42,16 +42,34 @@ def listen_for_connections():
 
 _thread.start_new_thread(listen_for_connections, () )
 
+def send_message_to_connected_clients(msg):
+    global clients
+    for c in clients:
+        client, address = c
+        print ("sending '"+msg+"'to: ",address)
+        try:
+            client.send(msg)
+        except OSError:
+            print(address + " disconnected")
+            client.close()
+            clients.remove((client, address))
+
 while True:
     try:
         timeDiff = utime.time() - lastUpdated
         if timeDiff > 30:
             lastUpdated = utime.time()
-            reset = getNetVar("cubeReset")
-            if reset == 'True':
+            cube_reset = getNetVar("cubeReset")
+            if cube_reset == 'True':
                 setNetVar("cubeReset", False)
                 import machine
                 machine.reset()
+
+            lamp_reset = getNetVar("lampReset")
+            if lamp_reset == 'True':
+                setNetVar("lampReset", False)
+                send_message_to_connected_clients("RESET\n")
+
         if len(clients) > 0:        
             if not switch.getValue():
                 speaker.beep_n(2)
@@ -65,15 +83,7 @@ while True:
             message = color_string+"$"+str(gyro_pos)+"\n"
             print("About to send: "+message)
 
-            for c in clients:
-                client, address = c
-                print ("sending to: ",address)
-                try:
-                    client.send(message)
-                except OSError as e:
-                    print(str(address) + " disconnected")
-                    client.close()
-                    clients.remove((client, address))
+            send_message_to_connected_clients(message)
         else: 
             print("No clients, waiting for connection")
             sleep_ms(1000)
