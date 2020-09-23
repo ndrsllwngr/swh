@@ -1,4 +1,4 @@
-# swh
+# Sketching with Hardware SS2020
 
 ## Description
 
