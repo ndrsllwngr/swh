@@ -48,11 +48,14 @@ def send_message_to_connected_clients(msg):
         client, address = c
         print ("sending '"+msg+"'to: ",address)
         try:
-            client.send(msg)
+            client.send(msg+"\n")
         except OSError:
-            print(address + " disconnected")
+            print(str(address) + " disconnected")
             client.close()
             clients.remove((client, address))
+
+def get_message():
+    return color_string+"$"+str(gyro_pos)
 
 while True:
     try:
@@ -68,22 +71,30 @@ while True:
             lamp_reset = getNetVar("lampReset")
             if lamp_reset == 'True':
                 setNetVar("lampReset", False)
-                send_message_to_connected_clients("RESET\n")
+                send_message_to_connected_clients("RESET")
 
         if len(clients) > 0:        
             if not switch.getValue():
-                speaker.beep_n(2)
                 print("COLOR_SCAN_MODE")
-                color_string = colour_sensor.checkColour()
+                sleep_ms(1000)
+                speaker.beep_long(tone='c')
+                sleep_ms(2000)
                 speaker.beep_long(tone='d')
-                sleep_ms(500)
+                speaker.beep_long(tone='d')
+                print("STARTING_SCAN")
+                color_string = colour_sensor.checkColour()
+                speaker.beep_melody("cc")
+                speaker.beep_long('g')
+
+                print("Color scanned: sending: "+get_message())
+                send_message_to_connected_clients(get_message())
+                
             else:
                 gyro_pos = gyro.update_position()
+                print("Gyro  scanned: sending: "+get_message())
+                send_message_to_connected_clients(get_message())
                 sleep_ms(100)
-            message = color_string+"$"+str(gyro_pos)+"\n"
-            print("About to send: "+message)
 
-            send_message_to_connected_clients(message)
         else: 
             print("No clients, waiting for connection")
             sleep_ms(1000)
