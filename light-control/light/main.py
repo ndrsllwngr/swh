@@ -22,6 +22,7 @@ while True:
         s.connect((cube_ip, 9420))
     except OSError:
         print("No cube found, retrying.")
+        s.close()
         sleep_ms(1000)
         continue
     except KeyboardInterrupt:
