@@ -22,10 +22,10 @@ while True:
     #print("Analog: "+str(analogVal)+" - rel: "+str(rel_val))
     position = float(getNetVar("lampPosition"))
     servo.rotate(position)
-    print("New Position: "+str(position))
     
     colors = stringToInt(getNetVar("lampColour"))
     colorStr = str(colors)
+    print("Pos: "+str(position)+" Color: "+colorStr)
     if colorStr != lastColorStr:
         ring_led.colorAll(colors[0], colors[1], colors[2])
         print("New Color: "+colorStr)
