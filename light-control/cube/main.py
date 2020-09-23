@@ -15,12 +15,13 @@ colour_sensor = DIY_COLOUR_SENSOR()
 speaker = SPEAKER()
 
 while True:
-    reset = getNetVar("cubeReset")
-    if reset == 'True':
-        setNetVar("cubeReset", False)
-        import machine
-        machine.reset()
     try:
+        reset = getNetVar("cubeReset")
+        if reset == 'True':
+            setNetVar("cubeReset", False)
+            import machine
+            machine.reset()
+
         if not switch.getValue():
             speaker.beep_n(2)
             print("COLOR_SCAN_MODE")
@@ -34,3 +35,6 @@ while True:
             sleep_ms(20)
     except KeyboardInterrupt:
         break
+    except OSError :
+        print("Caught an OSError")
+        continue
