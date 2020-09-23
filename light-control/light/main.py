@@ -15,7 +15,7 @@ lastColorStr = "0-0-0"
 lastUpdated = utime.time()
 init = False
 
-cube_ip = getNetVar("cupeIP")
+cube_ip = getNetVar("cubeIP")
 
 s = socket.socket()
 s.connect((cube_ip, 9420))

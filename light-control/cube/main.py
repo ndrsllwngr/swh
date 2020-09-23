@@ -11,7 +11,7 @@ from util.netvars import initNet, setNetVar, getNetVar
 
 ip = initNet("Wu-Tang-Lan", "doppelhure69")
 print("my ip is: "+ip)
-setNetVar("cupeIP", str(ip))
+setNetVar("cubeIP", str(ip))
 
 gyro = MPU6050_GYRO()
 switch = SWITCH(26)
