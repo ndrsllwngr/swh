@@ -50,7 +50,7 @@ class DIY_COLOUR_SENSOR():
 
     def checkColour(self):
         print("checkColour")
-        sleep(5)
+        #sleep(5)
         for i in range(0, 3):
             self.ledArray[i].value(1)
             sleep(0.1)
