@@ -12,7 +12,6 @@ ring_led = RING_LED()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
 lastColorStr = "0-0-0"
-lastUpdated = utime.time()
 init = False
 
 cube_ip = getNetVar("cubeIP")
@@ -26,7 +25,7 @@ while True:
         socket_data_str = str(socket_data, 'utf8')
         print("Received from socket: "+socket_data_str)
 
-        if socket_data_str == "RESET":
+        if socket_data_str == "RESET" or socket_data_str == "RESET\n":
             print("Reset triggered...")
             import machine
             machine.reset()
@@ -42,7 +41,7 @@ while True:
         servo.rotate(position)
         colorStr = str(colors)
 
-        print("Pos: "+str(position)+" Color: "+colorStr+" TimeDiff: "+str(timeDiff))
+        print("Pos: "+str(position)+" Color: "+colorStr)
         if init == False:
             print("SET COLOR!")
             ring_led.colorAll(colors[0], colors[1], colors[2])
