@@ -88,7 +88,7 @@ while True:
         if len(clients) > 0:        
             if not switch.getValue():
                 print("COLOR_SCAN_MODE")
-                sleep_ms(1000)
+                sleep_ms(300)
                 speaker.beep_long(tone='c')
                 sleep_ms(2000)
                 speaker.beep_long(tone='d')
@@ -105,7 +105,7 @@ while True:
                 gyro_pos = gyro.update_position()
                 print("Gyro  scanned: sending: "+get_message())
                 send_message_to_connected_clients(get_message())
-                sleep_ms(100)
+                sleep_ms(75)
 
         else: 
             print("No connected lamps, waiting for connection")
