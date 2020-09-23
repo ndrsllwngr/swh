@@ -3,12 +3,11 @@ from machine import Pin
 from time import sleep
 import random
 
+
 class RING_LED():
 
-    # number of leds
-    LED_COUNT = 8
-
     def __init__(self, pin=0):
+        self.LED_COUNT = 8
         self.np = neopixel.NeoPixel(Pin(pin), self.LED_COUNT)
 
     # colors the led at position in (r,g,b)
