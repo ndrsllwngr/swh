@@ -24,17 +24,25 @@ while True:
     try:
         timeDiff = utime.time() - lastUpdated
         if timeDiff > 30:
-            lastUpdated = utime.time()
             reset = getNetVar("lampReset")
             if reset == 'True':
+                print("Reset triggered...")
                 setNetVar("lampReset", False)
                 import machine
                 machine.reset()
+            lastUpdated = utime.time()
     
-        socket_data = s.recv(100)
-        print("Received from socket: "+socket_data)
-        colors = stringToInt(socket_data.split("$")[0])
-        position = socket_data.split("$")[1]
+        socket_data = s.readline()
+        socket_data_str = str(socket_data, 'utf8')
+        print("Received from socket: "+socket_data_str)
+
+        colors_str = socket_data_str.split("$")[0]
+        colors = stringToInt(colors_str)
+        print("ColorStr: "+colors_str)
+
+        pos_str = socket_data_str.split("$")[1]
+        print("PosStr: "+pos_str)
+        position = float(pos_str)
 
         servo.rotate(position)
         colorStr = str(colors)
@@ -56,8 +64,9 @@ while True:
         s.connect((cube_ip, 9420))
         continue
     except KeyboardInterrupt:
+        print("KeyboardInterrupt")
         s.close()
-
         break
 
+print("s.close()")
 s.close()
