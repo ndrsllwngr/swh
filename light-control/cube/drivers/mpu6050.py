@@ -80,7 +80,7 @@ class MPU6050_GYRO():
         y_gyro = 0
         z_gyro = 0
 
-        print("Starting Calibration")
+        print("Starting Gyro Calibration")
 
         # Discard the first set of values read from the IMU
         self.read_raw_values()
@@ -102,7 +102,7 @@ class MPU6050_GYRO():
         self.calib_y_gyro = y_gyro
         self.calib_z_gyro = z_gyro
 
-        print("Finishing Calibration")
+        print("Finishing Gyro Calibration")
 
     def set_last_read_values(self, x, y, z):
         self.last_x_value = x
@@ -151,8 +151,7 @@ class MPU6050_GYRO():
         elif self.position < self.POSITION_MIN:
             self.position = self.POSITION_MIN
 
-        print("Gyro "+dir+" Change: %.2f " %
-              gyro_z, " Pos: %.2f" % self.position)
+        print("Gyroscope - Direction: "+dir+" Change: %.2f " % gyro_z, " Pos: %.2f" % self.position)
         return self.position
 
     def get_position(self):

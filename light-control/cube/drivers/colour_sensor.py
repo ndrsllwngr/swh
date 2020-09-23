@@ -53,7 +53,7 @@ class DIY_COLOUR_SENSOR():
         self.balanceSet = True
 
     def checkColour(self):
-        print("checkColour")
+        #print("checkColour")
         # sleep(5)
         for i in range(0, 3):
             self.ledArray[i].value(1)
@@ -61,7 +61,7 @@ class DIY_COLOUR_SENSOR():
             avgRead = self.getReading(self.SCAN_READINGS)
             self.colourArray[i] = avgRead
             greyDiff = self.whiteArray[i] - self.blackArray[i]
-            print("greyDiff: ", greyDiff)
+            #print("greyDiff: ", greyDiff)
             # the reading returned minus the lowest value divided by the possible range multiplied by 255
             # will give us a value roughly between 0-255 representing the value for the current reflectivity
             # (for the colour it is exposed to) of what is being scanned
@@ -72,14 +72,14 @@ class DIY_COLOUR_SENSOR():
         return self.getColourString()
 
     def getReading(self, times):
-        print("getReading")
+        #print("getReading")
         tally = 0
         for i in range(0, times):
             reading = self.ldr.read()
             tally = reading + tally
             sleep(0.05)
         read = (tally)/times
-        print(read)
+        #print(read)
         return read
         
 
@@ -95,5 +95,5 @@ class DIY_COLOUR_SENSOR():
         gVal = max(min(int(self.colourArray[1]), 255), 0)
         bVal = max(min(int(self.colourArray[2]), 255), 0)
         netColourStr = str(rVal) + "-" + str(gVal) + "-" + str(bVal)
-        print(netColourStr)
+        print("Color Sensor - Scan: " + netColourStr)
         return netColourStr
