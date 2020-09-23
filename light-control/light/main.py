@@ -18,6 +18,7 @@ cube_ip = getNetVar("cubeIP")
 
 while True:
     try:
+        sleep_ms(2000)
         s = socket.socket()
         s.settimeout(10.0)
         s.connect((cube_ip, 9420))
@@ -32,7 +33,7 @@ while True:
     while True:
         try:
             timeDiff = utime.time() - lastUpdated
-            if timeDiff > 1:
+            if timeDiff > 30:
                 s.send(bytes('hello', 'UTF-8'))
                 lastUpdated = utime.time()
             socket_data = s.readline()
