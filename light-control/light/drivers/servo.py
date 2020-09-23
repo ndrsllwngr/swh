@@ -1,9 +1,6 @@
 from time import sleep
 from machine import PWM, Pin
 
-# Values for 500hz servo
-# test
-
 
 class LAMP_SERVO():
 
@@ -21,20 +18,14 @@ class LAMP_SERVO():
         servo = PWM(servoPin, freq=self.FREQ)
         servo.deinit()
         self.servo = PWM(servoPin, freq=self.FREQ)
-        print("INIT")
         self.servo.duty(self.DUTY_MAX)
 
     # position needs to be between 0.0 and 1.0
     def rotate(self, pos):
         position = self.MAX_POS - pos * (self.MAX_POS - self.MIN_POS)
-        print("desired position: " + str(position))
-
         current_duty = self.servo.duty()
-
         if(current_duty > self.DUTY_MAX):
             current_duty = self.DUTY_MAX
-
-        print("curr duty: " + str(current_duty))
 
         new_duty = int(self.DUTY_MIN + position *
                        (self.DUTY_MAX - self.DUTY_MIN))
@@ -45,10 +36,9 @@ class LAMP_SERVO():
         elif new_duty < self.DUTY_MIN:
             new_duty = self.DUTY_MIN
 
-        print("new duty: " + str(new_duty))
+        print("New duty: " + str(new_duty) + ", Old Duty: " +
+              str(current_duty) + ", Desired pos: " + str(position))
 
         step = 1 if current_duty < new_duty else -1
 
         self.servo.duty(new_duty)
-        # for i in range(current_duty, new_duty+1, step):
-        #    sleep(self.SLEEP)

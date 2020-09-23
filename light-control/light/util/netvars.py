@@ -15,8 +15,6 @@ def initNet(ssid, passwd):
 
 
 def http_get(url):
-    # print(url)
-    # print("............")
     import socket
     _, _, host, path = url.split('/', 3)
     addr = socket.getaddrinfo(host, 80)[0][-1]

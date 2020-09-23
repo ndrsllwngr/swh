@@ -1,5 +1,4 @@
 from drivers.servo import LAMP_SERVO
-import utime
 import socket
 from machine import Pin, PWM, ADC
 from time import sleep_ms
@@ -9,7 +8,6 @@ from util.colour import stringToInt
 
 servo = LAMP_SERVO()
 ring_led = RING_LED()
-lastUpdated = utime.time()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
 
@@ -32,14 +30,17 @@ while True:
 
     while True:
         try:
-            timeDiff = utime.time() - lastUpdated
-            if timeDiff > 30:
-                s.send(bytes('hello', 'UTF-8'))
-                lastUpdated = utime.time()
             socket_data = s.readline()
+            if not socket_data:
+                print("not socket_data")
+                s.close()
+                break
             socket_data_str = str(socket_data, 'utf8').rstrip()
             print("Received from socket: "+socket_data_str)
-
+            if socket_data_str == "EOF":
+                print("EOF")
+                s.close()
+                break
             if socket_data_str == "RESET":
                 print("Reset triggered...")
                 import machine
@@ -47,16 +48,13 @@ while True:
 
             colors_str = socket_data_str.split("$")[0]
             colors = stringToInt(colors_str)
-            print("ColorStr: "+colors_str)
-
             pos_str = socket_data_str.split("$")[1]
-            print("PosStr: "+pos_str)
             position = float(pos_str)
 
             servo.rotate(position)
             colorStr = str(colors)
 
-            print("Pos: "+str(position)+" Color: "+colorStr)
+            print("Pos: "+str(position)+", Color: "+colorStr)
             ring_led.colorAll(colors[0], colors[1], colors[2])
             sleep_ms(30)
         except OSError:
@@ -67,6 +65,8 @@ while True:
             print("KeyboardInterrupt")
             s.close()
             break
+        except Exception as e:
+            print("Expection error: %s" % e)
+            continue
 
-print("s.close()")
-s.close()
+print("EXIT")
