@@ -2,7 +2,8 @@ from time import sleep
 from machine import PWM, Pin
 
 # Values for 500hz servo
-#test
+# test
+
 
 class LAMP_SERVO():
 
