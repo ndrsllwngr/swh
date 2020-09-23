@@ -12,6 +12,7 @@ ring_led = RING_LED()
 initNet("Wu-Tang-Lan", "doppelhure69")
 lastColorStr = "0-0-0"
 lastUpdated = utime.time()
+init = False
 
 while True:
     try:
@@ -31,6 +32,10 @@ while True:
         colors = stringToInt(getNetVar("lampColour"))
         colorStr = str(colors)
         print("Pos: "+str(position)+" Color: "+colorStr+" TimeDiff: "+str(timeDiff))
+        if init == False:
+            print("SET COLOR!")
+            ring_led.colorAll(colors[0], colors[1], colors[2])
+            init = True
         if colorStr != lastColorStr:
             ring_led.colorAll(colors[0], colors[1], colors[2])
             print("New Color: "+colorStr)
