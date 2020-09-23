@@ -27,7 +27,7 @@ while True:
         print("Received from socket: "+socket_data_str)
 
         if socket_data_str == "RESET":
-            print("Reset triggered...") # test
+            print("Reset triggered...")
             import machine
             machine.reset()
 
