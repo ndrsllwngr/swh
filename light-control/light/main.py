@@ -11,8 +11,6 @@ servo = LAMP_SERVO()
 ring_led = RING_LED()
 
 initNet("Wu-Tang-Lan", "doppelhure69")
-lastColorStr = "0-0-0"
-init = False
 
 cube_ip = getNetVar("cubeIP")
 
@@ -42,14 +40,7 @@ while True:
         colorStr = str(colors)
 
         print("Pos: "+str(position)+" Color: "+colorStr)
-        if init == False:
-            print("SET COLOR!")
-            ring_led.colorAll(colors[0], colors[1], colors[2])
-            init = True
-        if colorStr != lastColorStr:
-            ring_led.colorAll(colors[0], colors[1], colors[2])
-            print("New Color: "+colorStr)
-            lastColorStr = colorStr
+        ring_led.colorAll(colors[0], colors[1], colors[2])
         sleep_ms(30)
     except OSError :
         print("Caught an OSError trying to reconnect socket")
