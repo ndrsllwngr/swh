@@ -20,10 +20,10 @@ s.connect((cube_ip, 9420))
 while True:
     try:
         socket_data = s.readline()
-        socket_data_str = str(socket_data, 'utf8')
+        socket_data_str = str(socket_data, 'utf8').rstrip()
         print("Received from socket: "+socket_data_str)
 
-        if socket_data_str == "RESET" or socket_data_str == "RESET\n":
+        if socket_data_str == "RESET":
             print("Reset triggered...")
             import machine
             machine.reset()
@@ -42,7 +42,7 @@ while True:
         print("Pos: "+str(position)+" Color: "+colorStr)
         ring_led.colorAll(colors[0], colors[1], colors[2])
         sleep_ms(30)
-    except OSError :
+    except OSError:
         print("Caught an OSError trying to reconnect socket")
         s.close()
         s = socket.socket()

@@ -3,6 +3,7 @@ from machine import Pin
 from time import sleep
 import random
 
+
 class RING_LED():
 
     # number of leds
