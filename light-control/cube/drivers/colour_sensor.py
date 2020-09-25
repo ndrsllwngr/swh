@@ -18,8 +18,10 @@ class DIY_COLOUR_SENSOR():
 
         self.ledArray = [self.ledRed, self.ledGreen, self.ledBlue]
         self.colourArray = [0, 0, 0]
-        self.whiteArray = [2094.65, 3256.78, 2206.68]#[2118.45, 3278.75, 2240.7] #[1839.6, 3192.4, 2062.6] #[2141, 3246, 2536]
-        self.blackArray = [1152.215, 2087.58, 1359.715]#[703.7, 1690.4, 980.8] #[693.2, 1698.2, 1000.4] #[654, 1622, 1239]
+        # [2118.45, 3278.75, 2240.7] #[1839.6, 3192.4, 2062.6] #[2141, 3246, 2536]
+        self.whiteArray = [2094.65, 3256.78, 2206.68]
+        # [703.7, 1690.4, 980.8] #[693.2, 1698.2, 1000.4] #[654, 1622, 1239]
+        self.blackArray = [1152.215, 2087.58, 1359.715]
 
         self.balanceSet = False
 
@@ -27,7 +29,8 @@ class DIY_COLOUR_SENSOR():
         if self.balanceSet == False:
             print("CALIBRATING COLORSENSOR")
             self.setBalance()
-            print("White: "+str(self.whiteArray)+ " - Black: "+str(self.blackArray))
+            print("White: "+str(self.whiteArray) +
+                  " - Black: "+str(self.blackArray))
 
     def setBalance(self):
         print("setBalance > white")
@@ -53,7 +56,7 @@ class DIY_COLOUR_SENSOR():
         self.balanceSet = True
 
     def checkColour(self):
-        #print("checkColour")
+        # print("checkColour")
         # sleep(5)
         for i in range(0, 3):
             self.ledArray[i].value(1)
@@ -72,16 +75,15 @@ class DIY_COLOUR_SENSOR():
         return self.getColourString()
 
     def getReading(self, times):
-        #print("getReading")
+        # print("getReading")
         tally = 0
         for i in range(0, times):
             reading = self.ldr.read()
             tally = reading + tally
             sleep(0.05)
         read = (tally)/times
-        #print(read)
+        # print(read)
         return read
-        
 
     def printColour(self):
         rVal = max(min(int(self.colourArray[0]), 255), 0)

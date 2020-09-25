@@ -39,7 +39,7 @@ class SPEAKER():
         for i in range(n):
             self.beep(time)
             sleep_ms(int(time/4))
-    
+
     def beep_melody(self, tones, time=SHORT):
         for t in tones:
             self.beep(time)

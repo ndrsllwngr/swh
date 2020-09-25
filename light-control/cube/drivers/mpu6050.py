@@ -151,7 +151,8 @@ class MPU6050_GYRO():
         elif self.position < self.POSITION_MIN:
             self.position = self.POSITION_MIN
 
-        print("Gyroscope - Direction: "+dir+" Change: %.2f " % gyro_z, " Pos: %.2f" % self.position)
+        print("Gyroscope - Direction: "+dir+" Change: %.2f " %
+              gyro_z, " Pos: %.2f" % self.position)
         return self.position
 
     def get_position(self):

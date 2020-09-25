@@ -1,3 +1,4 @@
+import socket
 import os
 import utime
 import _thread
@@ -20,7 +21,6 @@ speaker = SPEAKER()
 
 lastUpdated = utime.time()
 
-import socket
 socket_addr = socket.getaddrinfo('0.0.0.0', 9420)[0][-1]
 
 s = socket.socket()
@@ -33,24 +33,27 @@ gyro_pos = 0.0
 
 clients = []
 
+
 def listen_for_connections():
     global clients
     while True:
         try:
             cl, addr = s.accept()
             print('New lamp connected: ', addr)
-            clients.append((cl,addr))
+            clients.append((cl, addr))
         except OSError:
             print("Socket closed - stopping to accept connections")
             break
 
-_thread.start_new_thread(listen_for_connections, () )
+
+_thread.start_new_thread(listen_for_connections, ())
+
 
 def send_message_to_connected_clients(msg):
     global clients
     for c in clients:
         client, address = c
-        print ("Sending '"+msg+"'to: ",address)
+        print("Sending '"+msg+"'to: ", address)
         try:
             client.send(msg+"\n")
         except OSError:
@@ -62,8 +65,10 @@ def send_message_to_connected_clients(msg):
             client.close()
             clients.remove((client, address))
 
+
 def get_message():
     return color_string+"$"+str(gyro_pos)
+
 
 while True:
     try:
@@ -85,7 +90,7 @@ while True:
                 setNetVar("lampReset", False)
                 send_message_to_connected_clients("RESET")
 
-        if len(clients) > 0:        
+        if len(clients) > 0:
             if not switch.getValue():
                 print("COLOR_SCAN_MODE")
                 sleep_ms(300)
@@ -107,7 +112,7 @@ while True:
                 send_message_to_connected_clients(get_message())
                 sleep_ms(75)
 
-        else: 
+        else:
             print("No connected lamps, waiting for connection")
             sleep_ms(5000)
     except KeyboardInterrupt:
