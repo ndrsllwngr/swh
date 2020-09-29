@@ -9,7 +9,7 @@ from util.colour import stringToInt
 servo = LAMP_SERVO()
 ring_led = RING_LED()
 
-initNet("Wu-Tang-Lan", "doppelhure69")
+initNet("<NAME>", "<PWD>")
 
 cube_ip = getNetVar("cubeIP")
 

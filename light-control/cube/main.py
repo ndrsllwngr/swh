@@ -10,7 +10,7 @@ from drivers.speaker import SPEAKER
 from time import sleep_ms
 from util.netvars import initNet, setNetVar, getNetVar
 
-ip = initNet("Wu-Tang-Lan", "doppelhure69")
+ip = initNet("<NAME>", "<PWD>")
 print("my ip is: "+ip)
 setNetVar("cubeIP", str(ip))
 
