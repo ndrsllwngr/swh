@@ -4,6 +4,8 @@
 
 A lamp controlled over WiFi by a cube. The cube has a colour sensor on its bottom. The sensor measures the colour of the surface the cube is sitting on. Thus the cube can control the colour of the lamp remotely. Furthermore, the cube has an acceleration sensor which senses if the cube is rotated clock or anti-clockwise to dim the light intensity of the lamp accordingly. A button allows saving a colour as default, cube gives haptic feedback after the saving process was successful . The lamp has RGB light outputs as well as speakers and motors. The motors control panels which control how much light is emitted by the lamp.
 
+[![Product demo](https://img.youtube.com/vi/AeCGOGRvR3k/0.jpg)](https://www.youtube.com/watch?v=AeCGOGRvR3k)
+
 ## Features
 
 A lamp controlled over WiFi by a cube. The cube has a colour sensor on its bottom. The sensor measures the colour of the surface the cube is sitting on. Thus the cube can control the colour of the lamp remotely. Furthermore, the cube has an acceleration sensor which senses if the cube is rotated clock or anti-clockwise to dim the light intensity of the lamp accordingly. A button allows saving a colour as default, cube gives haptic feedback after the saving process was successful . The lamp has RGB light outputs as well as speakers and motors. The motors control panels which control how much light is emitted by the lamp.
