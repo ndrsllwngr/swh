@@ -5,8 +5,6 @@
   - [Description](#description)
     - [Technical Abstract](#technical-abstract)
     - [Features](#features)
-  - [Development](#development)
-    - [Commands](#commands)
   - [Contributors](#contributors)
     - [Individual contributions](#individual-contributions)
 
@@ -42,22 +40,6 @@ Multiple Lights are controlled over a direct WiFi connection (TCP Sockets) by a 
   - Adjustable rotation & light intensity reflected onto the wall realized with a controllable servo motor
   - Connects directly to the cube via a socket connection
   - Robust auto-cube detection/connection on boot/disconnect once WiFi has been configured once
-
-## Development
-
-### Commands
-
-Install pipenv:
-
-```bash=
-pip install --upgrade pipenv
-```
-
-Install dependencies:
-
-```bash=
-pipenv install
-```
 
 ## Contributors
 
