@@ -13,9 +13,9 @@
 Combining HCI, IoT and industrial design, this project aims to explore the possibility of a modern, interactive motion control system for harmonious and individualistic room lighting.
 
 Our proposed system consists of two components.
-The light installation, consisting of multiple symmetrical lamps each with an integrated adjustable RGB LED light source, as well as a servo motor to adjust and move the position of the lamp panels to change the room illumination intensity. All required electronic components for communication and control are built into the lights base plate, which gets powered by a simple USB cable. The system allows to scale the number of individual lamps up to any desired amount, without any additional configuration changes besides initially configuring the WiFi.
-The other core unit of the system is the so-called “magic cube”, which controls all connected lights remotely. It integrates different sensors and a microcomputer to control the LED colour and angle of the lamp panels.
-The built-in gyroscope sensor detects the rotational movement on the cube. Depending on the movement direction, e.g. clock or anti-clockwise, the light panels change their aperture angle. The bottom side of the cube contains a colour sensor, which on-demand, scans the colour of the underlying surface. All the registered and captured data is sent directly via WiFi to the light installation.
+The _light installation_, consisting of multiple symmetrical lamps each with an integrated adjustable RGB LED light source, as well as a servo motor to adjust and move the position of the lamp panels to change the room illumination intensity. All required electronic components for communication and control are built into the lights base pedestal, and are powered by a simple USB cable. The system allows to scale the number of individual lamps up to any desired amount, without any additional configuration changes besides initially configuring the WiFi. 
+The other core unit of the system is the so-called _“magic cube”_, which controls all connected lights remotely. It integrates different sensors and a microcomputer to control the LED colour and angle of the lamp panels.
+The built-in gyroscope sensor detects the rotational movement on the cube. Depending on the move direction, e.g. clock or anti-clockwise, the light panels change their aperture angle. The bottom side of the cube contains a colour sensor, which on-demand, scans the colour of the underlying surface. All registered and captured data is sent directly via WiFi to the light installation.
 
 [![Product demo](docs/yt.png)](https://www.youtube.com/watch?v=AeCGOGRvR3k)
 
@@ -28,10 +28,10 @@ Multiple Lights are controlled over a direct WiFi connection (TCP Sockets) by a 
 ### Features
 
 - Magic cube: compact, physical controller as input
-  - minimal, compact cube which houses multiple sensors
-  - A DIY colour sensor on the bottom which changes the colour of the lamp to the colour of the surface the cube is sitting on
-    gyro sensor detecting the cube’s rotation to control the rotation of the lights’ panels
-  - A switch to change between motion and colour control mode
+  - Minimal, compact cube which houses multiple sensors
+  - DIY colour sensor on the bottom which changes the colour of the lamp to the colour of the surface the cube is sitting on
+  - Gyro sensor detecting the cube’s rotation to control the rotation of the lights’ panels
+  - Switch to change between motion and colour control mode
   - Audio feedback depending on the cubes current mode - different beeping noises in colour scan mode & Geiger counter like audio feedback in motion control mode
   - Opens up a socket server & waits for lamps to control
   - Auto-Boot into wait mode
